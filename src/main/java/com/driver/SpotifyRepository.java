@@ -52,11 +52,24 @@ public class SpotifyRepository {
     }
 
     public Album createAlbum(String title, String artistName) {
-        Artist a = new Artist(artistName);
-        if(artists.contains(a) == false)
+        boolean present = false;
+        Artist a = null;
+        for(Artist at:artists)
         {
+            if(at.getName().equals(artistName))
+            {
+                present = true;
+                a = at;
+                break;
+            }
+        }
+
+        if(present == false)
+        {
+            a = new Artist(artistName);
             artists.add(a);
         }
+
         Album alm = new Album(title);
         //alm.setReleaseDate();
         albums.add(alm);
