@@ -126,6 +126,13 @@ public class SpotifyRepository {
         //Create a playlist with given title and add all songs having the given length in the database to that playlist
         //The creater of the playlist will be the given user and will also be the only listener at the time of playlist creation
         //If the user does not exist, throw "User does not exist" exception
+        for(Playlist p : playlists)
+        {
+            if(p.getTitle().equals(title))
+            {
+                return p;
+            }
+        }
         User us = null;
         Playlist p = new Playlist(title);
         for(User u : users)
@@ -151,17 +158,25 @@ public class SpotifyRepository {
             }
             playlistSongMap.put(p,l);
             creatorPlaylistMap.put(us,p);
-            if(playlistListenerMap.containsKey(p))
-            {
-                playlistListenerMap.get(p).add(us);
-            }
-            else {
+
                 List<User> lt = new ArrayList<>();
+                if(playlistListenerMap.containsKey(p))
+                {
+                    lt = playlistListenerMap.get(p);
+                }
                 lt.add(us);
                 playlistListenerMap.put(p,lt);
-            }
+
 
             playlists.add(p);
+            List<Playlist> userpl = new ArrayList<>();
+            if(userPlaylistMap.containsKey(us)){
+                userpl=userPlaylistMap.get(us);
+            }
+            userpl.add(p);
+            userPlaylistMap.put(us,userpl);
+
+
             return p;
 
         }
@@ -171,6 +186,12 @@ public class SpotifyRepository {
         //Create a playlist with given title and add all songs having the given titles in the database to that playlist
         //The creater of the playlist will be the given user and will also be the only listener at the time of playlist creation
         //If the user does not exist, throw "User does not exist" exception
+
+        for(Playlist playlist : playlists){
+            if(playlist.getTitle().equals(title))
+                return  playlist;
+        }
+
         User us = null;
         Playlist p = new Playlist(title);
         for(User u : users)
@@ -187,28 +208,34 @@ public class SpotifyRepository {
         }
         else {
             List<Song> l = new ArrayList<>();
-            for(String songtitle : songTitles)
-            {
+
                 for(Song s : songs)
                 {
-                    if(s.getTitle().equals(songtitle))
+                    if(songTitles.contains(s.getTitle()))
                     {
                         l.add(s);
                     }
                 }
-            }
+
             playlistSongMap.put(p,l);
             creatorPlaylistMap.put(us,p);
+
+            List<User> lt = new ArrayList<>();
             if(playlistListenerMap.containsKey(p))
             {
-                playlistListenerMap.get(p).add(us);
+                lt = playlistListenerMap.get(p);
             }
-            else {
-                List<User> lt = new ArrayList<>();
-                lt.add(us);
-                playlistListenerMap.put(p,lt);
-            }
+            lt.add(us);
+            playlistListenerMap.put(p,lt);
+
+
             playlists.add(p);
+            List<Playlist> userpl = new ArrayList<>();
+            if(userPlaylistMap.containsKey(us)){
+                userpl=userPlaylistMap.get(us);
+            }
+            userpl.add(p);
+            userPlaylistMap.put(us,userpl);
             return p;
         }
 
@@ -264,6 +291,14 @@ public class SpotifyRepository {
                     l.add(us);
                     playlistListenerMap.put(p,l);
                 }
+                creatorPlaylistMap.put(us,p);
+
+                List<Playlist>userpl = new ArrayList<>();
+                if(userPlaylistMap.containsKey(us)){
+                    userpl=userPlaylistMap.get(us);
+                }
+                if(!userpl.contains(p))userpl.add(p);
+                userPlaylistMap.put(us,userpl);
             }
             return p;
 
