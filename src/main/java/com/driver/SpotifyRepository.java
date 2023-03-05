@@ -234,7 +234,7 @@ public class SpotifyRepository {
 
         for(User u : users)
         {
-            if(users.contains(u.getMobile().equals(mobile)))
+            if(u.getMobile().equals(mobile))
             {
                 us = u;
                 break;
