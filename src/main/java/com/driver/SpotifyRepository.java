@@ -370,16 +370,16 @@ public class SpotifyRepository {
 
     public String mostPopularSong() {
         int max = Integer.MIN_VALUE;
-        StringBuilder name = new StringBuilder();
-        for(Song s : songLikeMap.keySet())
+        String name = "";
+        for(Song s : songs)
         {
             if(songLikeMap.get(s).size() > max)
             {
                 max = songLikeMap.get(s).size();
-                name.append(s.getTitle());
+                name = s.getTitle();
             }
         }
 
-        return name.toString();
+        return name;
     }
 }
