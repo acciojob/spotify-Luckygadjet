@@ -42,12 +42,14 @@ public class SpotifyRepository {
     public User createUser(String name, String mobile) {
         User u = new User(name,mobile);
         users.add(u);
+        userPlaylistMap.put(u,new ArrayList<>());
         return u;
     }
 
     public Artist createArtist(String name) {
         Artist a = new Artist(name);
         artists.add(a);
+        artistAlbumMap.put(a,new ArrayList<>());
         return a;
     }
 
@@ -68,6 +70,7 @@ public class SpotifyRepository {
         {
             a = new Artist(artistName);
             artists.add(a);
+            artistAlbumMap.put(a,new ArrayList<>());
         }
 
         Album alm = new Album(title);
@@ -93,9 +96,10 @@ public class SpotifyRepository {
         Song s = new Song(title,length);
         for(Album am : albums)
         {
-            if(albums.contains(alm) == true)
+            if(am.getTitle().equals(albumName))
             {
                 alm = am;
+                break;
             }
         }
         if(alm == null)
@@ -126,7 +130,7 @@ public class SpotifyRepository {
         Playlist p = new Playlist(title);
         for(User u : users)
         {
-            if(users.contains(u.getMobile().equals(mobile)))
+            if(u.getMobile().equals(mobile))
             {
                 us = u;
                 break;
@@ -171,7 +175,7 @@ public class SpotifyRepository {
         Playlist p = new Playlist(title);
         for(User u : users)
         {
-            if(users.contains(u.getMobile().equals(mobile)))
+            if(u.getMobile().equals(mobile))
             {
                 us = u;
                 break;
@@ -367,11 +371,11 @@ public class SpotifyRepository {
     public String mostPopularSong() {
         int max = Integer.MIN_VALUE;
         StringBuilder name = new StringBuilder();
-        for(Song s : songs)
+        for(Song s : songLikeMap.keySet())
         {
-            if(s.getLikes() > max)
+            if(songLikeMap.get(s).size() > max)
             {
-                max = s.getLikes();
+                max = songLikeMap.get(s).size();
                 name.append(s.getTitle());
             }
         }
