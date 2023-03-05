@@ -174,6 +174,7 @@ public class SpotifyRepository {
             playlistListenerMap.put(p,lt);
             playlists.add(p);
         }
+        return p;
 
     }
 
@@ -285,6 +286,8 @@ public class SpotifyRepository {
         }
         song.setLikes(song.getLikes()+1);
         art.setLikes(art.getLikes()+1);
+
+        return song;
 
 
     }
